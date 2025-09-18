@@ -1,0 +1,199 @@
+<!--
+Written By: Chris Roberts
+Date: 17 SEP 2025
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="UTF-8">
+                <meta content="width=device-width, initial-scale=1.0" name="viewport">
+                <title>Correlate-STIG</title>
+                <link href="favicon.png" rel="icon" type="image/x-icon" />
+                <link href="styles.css" rel="stylesheet" type="text/css" />
+                <script defer src="app.js"></script>
+        </head>
+        <body>
+                <!--INITIAL CONTAINER-->
+                <div class="animationElement applicationMaxWidth borderRadiusflexColumn" id="foundation">
+                        <div class="animationElement borderRadius boxShadow boxSizingContent flexColumn marginBottom5 primaryBackground" id="initialElement">
+                                <!--LOGO AND IMAGE-->
+                                <div class="animationElement borderRadiusTopLeft borderRadiusTopRight boxSizingBorder contentCenter flexRow maxWidth primaryBackground" id="logo">
+                                        <img alt="Logo" id="logoImage" src="sc_shield.png">
+                                        <h1>Correlate-STIG</h1>
+                                </div>
+                                <!--INFORMATION AND USER INPUTS-->
+                                <div class="animationElement borderRadiusBottomLeft borderRadiusBottomRight boxSizingBorder contentSpaceBetween flexRow maxWidth primaryBackground" id="info_UserOptions">
+                                        <div class="animationElement borderRadius boxSizingBorder flexRow marginBottom8 marginLeft8 primaryBorder secondaryBackground" id="info_StigTags">
+                                                <!--CORRELATED DATA INFORMATION-->
+                                                <div class="contentSpaceEvenly flexColumn" id="infoContainer">
+                                                        <div class="contentSpaceBetween boxSizingBorder flexRow padLeft10 padTop" id="securityControlsInformation">
+                                                                <div>
+                                                                        <p id="securityControlsTotal">Total Security Controls:</p>
+                                                                </div>
+                                                                <div>
+                                                                        <p class="boldFont" id="securityControlsTotalValue"></p>
+                                                                </div>
+
+                                                        </div>
+                                                        <div class="contentSpaceBetween boxSizingBorder flexRow padLeft10 padTop" id="cciInformation">
+                                                                <div>
+                                                                        <p id="cciListVersion">CCI List Date:</p>
+                                                                </div>
+                                                                <div>
+                                                                        <p class="boldFont" id="cciListVersionValue"></p>
+                                                                </div>
+
+                                                        </div>
+                                                        <div class="contentSpaceBetween boxSizingBorder flexRow padLeft10 padTop" id="stigsInformation">
+                                                                <div>
+                                                                        <p id="stigsUploaded">STIGs Uploaded:</p>
+                                                                </div>
+                                                                <div>
+                                                                        <p class="boldFont" id="stigsUploadedValue"></p>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <!--TAG LISTS-->
+                                                <div class="animationElement contentSpaceBetween flexColumn hide marginLeft8 padLeft10 tagContainer" id="tagOuterContainer">
+                                                        <div class="contentSpaceBetween flexRow padLeft10 tagContainer">
+                                                                <!--STIG TAGS-->
+                                                                <div class="overflowHidden tags" id="stigTagsListContainer">
+                                                                        <p class="fontSizeXSmall">STIGs:</p>
+                                                                        <div class="overflowYScroll">
+                                                                                <ul class="flexColumn marginNone padNone" id="stigTagsUnorderedList"></ul>
+                                                                        </div>
+                                                                </div>
+                                                                <!--CONTROL TAGS-->
+                                                                <div class="borderRadiusBottomRight marginLeft8 overflowHidden tags" id="controlTagsListContainer">
+                                                                        <p class="fontSizeXSmall">Control Baseline:</p>
+                                                                        <div class="overflowYScroll">
+                                                                                <ul class="flexColumn marginNone padNone" id="controlTagsUnorderedList"></ul>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <!--USER OPTIONS-->
+                                        <div class="alignItemsFlexStart animationElement boxSizingBorder flexColumn marginRight8 primaryBackground" id="userOptions">
+                                                <!--NIST REVISION SELECTION RADIOS-->
+                                                <div class="alignItemsCenter animationElement borderRadius boxSizingBorder contentSpaceEvenly flexRow marginBottom5 padTop primaryBackground" id="radio">
+                                                        <div class="alignItemsCenter boldFont contentCenter flexRow">
+                                                                <span class="borderRadius marginRight5 positionRelative secondaryBackground tooltip wrapText" data-tooltip="Select which revision of the NIST 800-53 will be referenced when correlating data from the security controls list, CCI list, and STIG(s)." id="radioTooltip">?</span>
+                                                        </div>
+                                                        <span class="boldFont padLeft5" id="radioLabel">Select a NIST 800-53 revision:</span>
+                                                        <input id="option1" name="version" type="radio" value="4">
+                                                        <span> 4</span>
+                                                        <input id="option2" name="version" type="radio" value="5">
+                                                        <span> 5</span>
+                                                </div>
+                                                <!--FILE UPLOADS-->
+                                                <div class="alignItemsFlexStart animationElement boxSizingBorder borderRadius flexColumn primaryBackground" id="fileUploads">
+                                                        <div class="alignItemsCenter animationObject boldFont contentSpaceBetween dataUploadContainer flexRow hide maxWidth padTop" id="controlCsvUploadContainer">
+                                                                <div class="alignItemsCenter boldFont contentCenter flexRow">
+                                                                        <span class="borderRadius marginRight5 positionRelative secondaryBackground tooltip wrapText" data-tooltip="A CSV formatted list of security controls from the NIST 800-53 publication. This list should only include controls applicable to your system/enclave. The CSV header should be 'Control' with each control listed on a new line and no delimiter.&#10;&#10;EXAMPLE.csv:&#10;Control&#10;AC-1&#10;CM-7(2)&#10;IA-5(14)" id="csvTooltip">?</span>
+                                                                        <span class="padLeft5">Security Controls List</span>
+                                                                </div>
+                                                                <input accept=".csv" class="dataUpload" id="securityControlListUpload" type="file">
+                                                        </div>
+                                                        <div class="alignItemsCenter animationObject boldFont contentSpaceBetween dataUploadContainer flexRow hide maxWidth padTop" id="cciListUploadContainer">
+                                                                <div class="alignItemsCenter boldFont contentCenter flexRow">
+                                                                        <span class="borderRadius marginRight5 positionRelative secondaryBackground tooltip wrapText" data-tooltip="The Control Correlation Identifier (CCI) provides a standard identifier and description for each of the singular, actionable statements that comprise a security control or IA best practice. This identifier is what connects a STIG rule to one or more security controls. The CCI list can be found on the DISA cyber exchange from the SRGs/STIGs Document Library. Download the U_CCI_List.zip, then upload the U_CCI_List.xml here." id="cciTooltip">?</span>
+                                                                        <span class="padLeft5">DISA CCI List</span>
+                                                                </div>
+                                                                <input accept=".xml" class="dataUpload" id="cciListUpload" type="file">
+                                                        </div>
+                                                        <div class="alignItemsCenter animationObject boldFont contentSpaceBetween dataUploadContainer flexRow hide maxWidth padTop" id="stigXccdfUploadsContainer">
+                                                                <div class="alignItemsCenter boldFont contentCenter flexRow">
+                                                                        <span class="borderRadius marginRight5 positionRelative secondaryBackground tooltip wrapText" data-tooltip="Security Technical Implementation Guides are developed and provided by DISA. They provide enhanced security configurations for hardening various IT products in XCCDF formatted XML files. They can be found on the DISA Cyber Exchange under STIGs --> Document Library. Obtain the necessary STIGs and upload the XML files ending with '_Manual-xccdf.xml' here." id="stigTooltip">?</span>
+                                                                        <span class="padLeft5">STIG XCCDF Files(s)</span>
+                                                                </div>
+                                                                <input accept=".xml" class="dataUpload" id="stigXccdfUpload" type="file" multiple/>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                <!--PROGRESS BAR-->
+                                <div class="animationElement borderRadius boxSizingBorder flexRow hide padAll10 primaryBackground" id="correlationProgressContainer">
+                                        <div class="borderRadius fontSizeSmaller maxWidth secondaryBackground" id="correlationProgressBar">
+                                                <div class="borderRadius primaryBackground" id="correlationProgressBarFill"></div>
+                                                <p class="primaryFontColor" id="correlationProgressBarText"></p>
+                                        </div>
+                                </div>
+                                <!--SHOW ADVANCED CHECKBOX-->
+                                <div class="alignItemsCenter contentRight hide padAll10" id="showAdvancedCheckboxContainer">
+                                        <input type="checkbox" id="showAdvancedCheckbox">
+                                        <span class="fontSizeSmall padLeft5 secondaryFontFamily">Show Logs</span>
+                                </div>
+                                <!--LOG CONSOLE-->
+                                <div class="animationElement borderRadius boxSizingBorder flexRow hide marginBottom8 primaryBackground" id="logConsoleCollapsible">
+                                        <details>
+                                                <summary id="logConsoleLabel">
+                                                        <span class="borderRadius marginRight5 positionRelative secondaryBackground tooltip wrapText" data-tooltip="The log entries displayed here are generated during the data correlation process. This log is meant to provide a means of troubleshooting any unexpected results." id="logConsoleTooltip">?</span>
+                                                        <span class="padAll5">Log Console:</span>
+                                                </summary>
+                                                <div class="padBottom10 padLeft10 padRight10" id="logConsolePrimaryContainer">
+                                                        <div class="alignItemsCenter contentCenter flexColumn marginBottom5" id="logConsoleFilterContainer">
+                                                                <input class="borderNone borderRadius fontSizeSmall padTop5 primaryFontColor secondaryBackground" id="logConsoleFilter" placeholder="Type to filter log..." type="text">
+                                                        </div>
+                                                        <div class="borderNone borderRadius overflowHidden tertiaryBackground" id="logConsoleOuterContainer">
+                                                                <div class="overflowAuto padLeft10" id="logConsoleInnerContainer">
+                                                                        <ol class="marginNone padNone tertiaryFontColor tertiaryFontFamily whiteSpacePreserve" id="logConsole"></ol>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </details>
+                                </div>
+                        </div>
+                        <!--RESULTS TABLES-->
+                        <div class="borderRadius boxShadow boxSizingContent hide marginBottom8 marginTop8 primaryBackground" id="resultsTableCollapsible">
+                                <details>
+                                        <summary id="resultsTableLabel">
+                                                <span class="borderRadius marginRight5 positionRelative secondaryBackground tooltip wrapText" id="resultsTableTooltip" data-tooltip="Results of data correlation displaying which rules are applicable from the provided STIGs. Select a rule to expand more information. Color coded based on rule severity.&#10;Red = High&#10;Orange = Medium&#10;Green = Low">?</span>
+                                                <span class="padAll5">Correlation Results</span>
+                                        </summary>
+                                        <div>
+                                                <div class="alignItemsCenter flexRow" id="hideFalseCheckboxContainer">
+                                                        <input type="checkbox" id="hideFalseCheckbox">
+                                                        <span class="padLeft10 fontSizeSmaller">Hide Not Applicable Rules?</span>
+                                                </div>
+                                                <div class="alignItemsCenter contentCenter flexColumn padAll10" id="resultsTableContainer"></div>
+                                        </div>
+                                </details>
+                        </div>
+                        <!--STIG CHECKLISTS-->
+                        <div class="animationElement borderRadius boxShadow boxSizingContent hide marginBottom8 marginTop8 primaryBackground" id="stigChecklistCollapsible">
+                                <details>
+                                        <summary id="stigChecklistLabel">
+                                                <span class="borderRadius marginRight5 positionRelative secondaryBackground tooltip wrapText" data-tooltip="This section allows downloading custom checklists built from the uploaded STIG files. There is an option to provide a CSV file specifying multiple hosts that the custom checklists will be built for. Rules determined to be not applicable based on correlation data and marked respectively. Downloads are CKLB format." id="stigChecklistTooltip">?</span>
+                                                <span class="padAll5">STIG Checklists</span>
+                                        </summary>
+                                        <div class="contentSpaceEvenly flexRow marginBottom8 padAll10" id="stigChecklistInnerContainer">
+                                                <div id="stigChecklistHostCsvUploadContainer">
+                                                        <div id="stigChecklistHostCsvUploadLabel">
+                                                                <span class="borderRadius marginRight5 secondaryBackground tooltip wrapText" data-tooltip="OPTIONAL: Upload a CSV with multiple hosts specified to download checklists for each host. CSV header should be: hostname,domain,ipAddress,macAddress,targetRemarks,role,NonComputing,TechnologyArea,webDBasset,webDBsite,webDBInstance. &#10;&#10;EXAMPLE.csv:&#10;hostname,domain,ipAddress,macAddress,targetRemarks,role,NonComputing,TechnologyArea,webDBasset,webDBsite,webDBInstance&#10;host-01,test.net,10.1.1.1,aa:bb:cc:dd:11:22,test host number one,Workstation,Windows OS,Computing,false,,,&#10;server1-site1-instance1,test.net,192.168.45.6,aa:bb:cc:22:33:77,test server number one,Member Server,UNIX OS,Computing,true,site1,instance1&#10;host2,text.net,10.1.1.5,aa:bb:cc:44:77:22,,None,Workstation,Non-Computing,false,,," id="stigChecklistHostCsvTooltip">?</span>
+                                                                <span class="padAll5">Host(s) information CSV: </span>
+                                                        </div>
+                                                        <div class="alignItemsCenter contentCenter flexColumn" id="stigChecklistHostCsvUploadButton">
+                                                                <input accept=".csv" class="marginElement" id="stigChecklistHostCsvUpload" type="file">
+                                                        </div>
+                                                </div>
+                                                <div id="stigChecklistsNotApplicableDetailsContainer">
+                                                        <div id="stigChecklistsNotApplicableDetailsLabel">
+                                                                <span class="borderRadius marginRight5 secondaryBackground tooltip wrapText" data-tooltip="The comment entered here will be applied to the 'Detail' field for each rule marked 'Not Applicable'." id="stigChecklistsNotApplicableDetailsTooltip">?</span>
+                                                                <span class="padAll5">Remarks for Not Applicable Rules:</span>
+                                                        </div>
+                                                        <div id="stigChecklistsNotApplicableDetailsInput">
+                                                                <textarea class="borderRadius borderNone fontSizeSmall marginElement overflowAuto padAll10 primaryFontColor secondaryBackground" id="stigChecklistsNotApplicableDetails"></textarea>
+                                                        </div>
+                                                </div>
+                                                <div class="alignItemsCenter contentCenter" id="stigChecklistDownloadButtonContainer">
+                                                        <button class="button" id="stigChecklistDownloadButton" type="button">Download</button>
+                                                </div>
+                                        </div>
+                                </details>
+                        </div>
+                </div>
+        </body>
+
+</html>
